@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.SplashScreen" parent="android:ThemeOverlay.Material.Dark.ActionBar">
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+        <item name="postSplashScreenTheme">@style/Theme.MyApp</item>
+    </style>
+
+    <style name="Theme.MyApp" parent="android:ThemeOverlay.Material.Dark.ActionBar">
+        <!-- Main App Theme -->
+    </style>
+
+    <style name="Theme.RecipeFinder" parent="android:Theme.Material.Light.NoActionBar" />
+</resources>
