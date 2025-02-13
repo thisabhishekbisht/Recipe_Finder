@@ -6,10 +6,10 @@ import androidx.compose.runtime.Composable
 import com.abhishek.recipefinder.model.Recipe
 
 @Composable
-fun RecipeList(recipes: List<Recipe>) {
+fun RecipeList(recipes: List<Recipe>, onClick: (Recipe) -> Unit) {
     LazyColumn {
         items(recipes) { recipe ->
-            RecipeItem(recipe) // Call separate UI for each item
+            RecipeItem(recipe, onClick = { onClick(recipe) }) // Call separate UI for each item
         }
     }
 }

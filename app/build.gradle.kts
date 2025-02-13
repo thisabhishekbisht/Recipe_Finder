@@ -40,8 +40,10 @@ android {
 }
 
 dependencies {
-    implementation (libs.retrofit)
-    implementation (libs.converter.gson)
+    implementation(libs.gson)  // Add this line for Gson
+    implementation(libs.coil.compose) // Coil for Jetpack Compose
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
     implementation(libs.kotlinx.coroutines.android)
     /*Splash Screen Lib*/
     implementation(libs.androidx.core.splashscreen)
