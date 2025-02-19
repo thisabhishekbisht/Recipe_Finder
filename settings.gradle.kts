@@ -21,4 +21,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "Recipe Finder"
 include(":app")
- 

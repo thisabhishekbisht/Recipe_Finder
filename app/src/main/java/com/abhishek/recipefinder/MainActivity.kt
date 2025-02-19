@@ -17,8 +17,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -26,7 +24,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -59,13 +56,10 @@ import androidx.navigation.navArgument
 import coil.compose.rememberAsyncImagePainter
 import com.abhishek.recipefinder.factory.RecipeViewModelFactory
 import com.abhishek.recipefinder.model.ApiResponse
-import com.abhishek.recipefinder.model.Recipe
 import com.abhishek.recipefinder.model.RecipeResponse
 import com.abhishek.recipefinder.network.RetrofitInstance
-import com.abhishek.recipefinder.ui.ui.RecipeItem
 import com.abhishek.recipefinder.ui.ui.RecipeList
 import com.abhishek.recipefinder.viewModel.RecipeViewModel
-import com.google.gson.Gson
 import kotlinx.coroutines.delay
 
 
@@ -73,7 +67,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
         // Setup the Jetpack Splash API
         installSplashScreen()
         setContent {
@@ -86,35 +79,40 @@ class MainActivity : ComponentActivity() {
 fun MyApp() {
     val navController = rememberNavController()
 
+    // ✅ Provide repository instance
+    val repository = RetrofitInstance.provideRecipeRepository()
+
+    // ✅ Create ViewModel using factory
+    val recipeViewModel: RecipeViewModel = viewModel(factory = RecipeViewModelFactory(repository))
+
     NavHost(
         navController = navController,
         startDestination = "home"
     ) {
         composable("splashScreen") { SplashScreen(navController) }
-        composable("home") { HomeScreen(navController) }
-        // ✅ Define `details/{recipeId}` route to accept a dynamic argument
+        composable("home") { HomeScreen(navController, recipeViewModel) }
+
         composable(
             "details/{recipeId}/{recipeName}",
             arguments = listOf(
                 navArgument("recipeId") { type = NavType.IntType },
                 navArgument("recipeName") { type = NavType.StringType },
-                //    navArgument("recipeImage") { type = NavType.StringType }
             )
         ) { backStackEntry ->
             val recipeId = backStackEntry.arguments?.getInt("recipeId")
             val recipeName = backStackEntry.arguments?.getString("recipeName")
-            // val recipeImage = backStackEntry.arguments?.getString("recipeImage")
-            if (recipeId != null) {
-                DetailScreen(navController, recipeId, recipeName)
-            }
+
+            DetailScreen(navController, recipeId, recipeName, viewModel = recipeViewModel)
         }
     }
 }
 
+
 @Composable
 fun SplashScreen(navController: NavHostController) {
     var isSplashVisible by remember { mutableStateOf(true) }
-
+    // Create a shared instance of RecipeViewModel
+    val recipeViewModel: RecipeViewModel = viewModel()
     LaunchedEffect(Unit) {
         delay(10000) // Simulate loading time
         isSplashVisible = false
@@ -129,7 +127,7 @@ fun SplashScreen(navController: NavHostController) {
     }
 
     if (!isSplashVisible) {
-        HomeScreen(navController)
+        HomeScreen(navController, recipeViewModel)
     }
 }
 
@@ -154,9 +152,7 @@ fun SplashScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(navController: NavHostController) {
-    val repository = RetrofitInstance.provideRecipeRepository()
-    val viewModel: RecipeViewModel = viewModel(factory = RecipeViewModelFactory(repository))
+fun HomeScreen(navController: NavHostController, viewModel: RecipeViewModel) {
     val recipeState by viewModel.recipeState.collectAsState()
 
     // ✅ Fetch API data only once
@@ -189,7 +185,9 @@ fun HomeScreen(navController: NavHostController) {
                     RecipeList(recipes = recipes, onClick = { recipe ->
                         val recipeId = recipe.id // Pass recipeId to the details screen
                         val recipeName = recipe.name
-                  /*      val recipeImage = recipe.image*/
+
+                        // Store the selected recipe in the shared ViewModel
+                        viewModel.updateSelectedRecipe(recipe)
                         navController.navigate("details/$recipeId/$recipeName")
                     })
                 }
@@ -208,12 +206,15 @@ fun HomeScreen(navController: NavHostController) {
 fun DetailScreen(
     navController: NavHostController,
     recipeId: Int?,
-    recipeName: String?
+    recipeName: String?,
+    viewModel: RecipeViewModel
 ) {
+    val recipe = viewModel.selectedRecipe
+
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(recipeName ?: "Recipe Details") },
+                title = { Text(recipe?.name ?: "Recipe Details") },
                 navigationIcon = {
                     IconButton(onClick = { navController.navigateUp() }) {
                         Icon(
@@ -235,9 +236,9 @@ fun DetailScreen(
                 .padding(16.dp),
             verticalArrangement = Arrangement.Top
         ) {
-            val recipeImage = "https://cdn.dummyjson.com/recipe-images/1.webp"
+            val recipeImage = recipe?.image
             // Show Recipe Image
-            if (recipeImage.isNotEmpty()) {
+            if (recipeImage?.isNotEmpty() == true) {
                 Image(
                     painter = rememberAsyncImagePainter(recipeImage),
                     contentDescription = "Recipe Image",
@@ -252,39 +253,40 @@ fun DetailScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             // Recipe Details (Name, Difficulty, Rating, etc.)
-            if (recipeName != null) {
+            if (recipe?.name != null) {
                 Text(
-                    text = recipeName,
+                    text = recipe.name,
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold
                 )
             }
-            Text(text = "Cuisine: ${"recipe.cuisine"}", color = Color.Gray)
-            Text(text = "Difficulty: ${"recipe.difficulty"}", color = Color.Gray)
-            Text(text = "Cook Time: ${"recipe.cookTimeMinutes"} min", color = Color.Gray)
+            Text(text = "Cuisine: ${recipe?.cuisine}", color = Color.Gray)
+            Text(text = "Difficulty: ${recipe?.difficulty}", color = Color.Gray)
+            Text(text = "Cook Time: ${recipe?.cookTimeMinutes} min", color = Color.Gray)
             Text(
-                text = "⭐ ${"recipe.rating"} (${"recipe.reviewCount"} reviews)",
+                text = "⭐ ${recipe?.rating} (${recipe?.reviewCount} reviews)",
                 fontWeight = FontWeight.Bold
             )
 
             Spacer(modifier = Modifier.height(8.dp))
 
             // Ingredients
-            Text(
-                text = "Ingredients:",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold
-            )
 
-
+                Text(
+                    text = "Ingredients :",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold
+                )
+            Text(text = " ${recipe?.ingredients}", color = Color.Gray)
             Spacer(modifier = Modifier.height(8.dp))
 
             // Instructions
             Text(
-                text = "Instructions:",
+                text = "Instructions :",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
+            Text(text = " ${recipe?.instructions}", color = Color.Gray)
 
         }
     }
