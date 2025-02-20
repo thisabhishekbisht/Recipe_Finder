@@ -1,4 +1,4 @@
-package com.abhishek.recipefinder.model
+package com.abhishek.recipefinder.data
 
 data class RecipeResponse(
     val limit: Int,

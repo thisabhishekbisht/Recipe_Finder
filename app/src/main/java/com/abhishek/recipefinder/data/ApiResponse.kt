@@ -1,4 +1,4 @@
-package com.abhishek.recipefinder.model
+package com.abhishek.recipefinder.data
 
 sealed class ApiResponse<out T> {
     data class Success<T>(val data: T) : ApiResponse<T>()

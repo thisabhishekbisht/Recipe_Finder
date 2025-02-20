@@ -1,12 +1,11 @@
 package com.abhishek.recipefinder.viewModel
 
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.abhishek.recipefinder.model.ApiResponse
-import com.abhishek.recipefinder.model.Recipe
-import com.abhishek.recipefinder.model.RecipeResponse
+import com.abhishek.recipefinder.data.ApiResponse
+import com.abhishek.recipefinder.data.Recipe
+import com.abhishek.recipefinder.data.RecipeResponse
 import com.abhishek.recipefinder.repository.RecipeRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

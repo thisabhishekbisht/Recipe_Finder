@@ -1,7 +1,6 @@
 package com.abhishek.recipefinder.network
 
-import com.abhishek.recipefinder.model.RecipeResponse
-import retrofit2.Call
+import com.abhishek.recipefinder.data.RecipeResponse
 import retrofit2.http.GET
 
 interface ApiService {

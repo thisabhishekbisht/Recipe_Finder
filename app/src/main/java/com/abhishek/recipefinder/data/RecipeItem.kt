@@ -1,4 +1,4 @@
-package com.abhishek.recipefinder.ui.ui
+package com.abhishek.recipefinder.data
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.abhishek.recipefinder.model.Recipe
 
 @Composable
 fun RecipeItem(recipe: Recipe, onClick: () -> Unit) {

@@ -1,9 +1,8 @@
-package com.abhishek.recipefinder.ui.ui
+package com.abhishek.recipefinder.data
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import com.abhishek.recipefinder.model.Recipe
 
 @Composable
 fun RecipeList(recipes: List<Recipe>, onClick: (Recipe) -> Unit) {
