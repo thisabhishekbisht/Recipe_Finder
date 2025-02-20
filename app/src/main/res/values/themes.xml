@@ -1,13 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <style name="Theme.SplashScreen" parent="android:ThemeOverlay.Material.Dark.ActionBar">
-        <item name="android:windowBackground">@drawable/splash_screen</item>
-        <item name="postSplashScreenTheme">@style/Theme.MyApp</item>
-    </style>
+ <resources>
+         <!-- Base application theme for pre-API 31 -->
+         <style name="Theme.MyApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+             <!-- Customize your theme here -->
+             <item name="colorPrimary">@color/md_theme_light_primary</item>
+             <item name="colorPrimaryContainer">@color/md_theme_light_primaryContainer</item>
+             <item name="colorSecondary">@color/md_theme_light_secondary</item>
+             <item name="colorSecondaryContainer">@color/md_theme_light_secondaryContainer</item>
+             <item name="colorSurface">@color/md_theme_light_surface</item>
+             <item name="colorError">@color/md_theme_light_error</item>
+             <item name="colorOnPrimary">@color/md_theme_light_onPrimary</item>
+             <item name="colorOnSecondary">@color/md_theme_light_onSecondary</item>
+             <item name="colorOnSurface">@color/md_theme_light_onSurface</item>
+             <item name="colorOnBackground">@color/md_theme_light_onBackground</item>
+             <item name="colorOnError">@color/md_theme_light_onError</item>
+         </style>
 
-    <style name="Theme.MyApp" parent="android:ThemeOverlay.Material.Dark.ActionBar">
-        <!-- Main App Theme -->
-    </style>
-
-    <style name="Theme.RecipeFinder" parent="android:Theme.Material.Light.NoActionBar" />
-</resources>
+         <!-- Splash screen theme for devices below API 31 -->
+         <style name="Theme.MyApp.Splash" parent="Theme.AppCompat.Light.NoActionBar">
+             <item name="android:windowBackground">@drawable/splash_screen_background</item>
+         </style>
+    </resources>

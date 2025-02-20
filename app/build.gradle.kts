@@ -40,6 +40,8 @@ android {
 }
 
 dependencies {
+    implementation(libs.material) // Use the latest version
+    implementation(libs.material3) // ✅ Ensure this is present
     implementation(libs.gson)  // Add this line for Gson
     implementation(libs.coil.compose) // Coil for Jetpack Compose
     implementation(libs.retrofit)
@@ -49,8 +51,6 @@ dependencies {
     implementation(libs.androidx.core.splashscreen)
     /*lifecycle compose */
     implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.material3.v120)
-    implementation(libs.material3)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -59,7 +59,6 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

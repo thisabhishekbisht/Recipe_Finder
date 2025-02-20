@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- ✅ Main app theme -->
+    <style name="Theme.RecipeFinder" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/material_dynamic_primary0</item>
+        <item name="android:colorBackground">@color/material_dynamic_neutral10</item>
+        <item name="android:forceDarkAllowed">true</item>
+    </style>
+
+    <!-- ✅ Splash screen theme (used only for system splash) -->
+    <style name="Theme.RecipeFinder.Splash" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowSplashScreenBackground">@color/md_theme_light_primary</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/icon_android</item>
+        <item name="postSplashScreenTheme">@style/Theme.RecipeFinder</item>
+    </style>
+</resources>
