@@ -24,10 +24,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
+import com.abhishek.recipefinder.R
+import com.abhishek.recipefinder.activity.ui.utils.CustomText
+import com.abhishek.recipefinder.activity.ui.utils.LoadImage
 import com.abhishek.recipefinder.viewModel.RecipeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -68,14 +76,9 @@ fun DetailScreen(
             val recipeImage = recipe?.image
             // Show Recipe Image
             if (recipeImage?.isNotEmpty() == true) {
-                Image(
-                    painter = rememberAsyncImagePainter(recipeImage),
-                    contentDescription = "Recipe Image",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp)
-                        .clip(RoundedCornerShape(12.dp)),
-                    contentScale = ContentScale.Crop
+                LoadImage(
+                    imageUrl = recipeImage,
+                    modifier = Modifier.fillMaxWidth()
                 )
             }
 
@@ -89,30 +92,82 @@ fun DetailScreen(
                     fontWeight = FontWeight.Bold
                 )
             }
-            Text(text = "Cuisine: ${recipe?.cuisine}", color = Color.Gray)
-            Text(text = "Difficulty: ${recipe?.difficulty}", color = Color.Gray)
-            Text(text = "Cook Time: ${recipe?.cookTimeMinutes} min", color = Color.Gray)
-            Text(
-                text = "⭐ ${recipe?.rating} (${recipe?.reviewCount} reviews)",
-                fontWeight = FontWeight.Bold
+            CustomText(
+                "Cuisine: ${recipe?.cuisine}",
+                color = Color.Gray,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Normal,
+                textAlign = TextAlign.Center,
+                style = TextStyle.Default
             )
+            CustomText(
+                "Difficulty: ${recipe?.difficulty}",
+                color = Color.Gray,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Normal,
+                textAlign = TextAlign.Center,
+                style = TextStyle.Default
+            )
+            CustomText(
+                "Cook Time: ${recipe?.cookTimeMinutes} min",
+                color = Color.Gray,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Normal,
+                textAlign = TextAlign.Center,
+                style = TextStyle.Default
+            )
+            CustomText(
+                "⭐ ${recipe?.rating} (${recipe?.reviewCount} reviews)",
+                color = Color.Black,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                style = TextStyle.Default
+            )
+
             Spacer(modifier = Modifier.height(8.dp))
             // Ingredients
-            Text(
-                text = "Ingredients :",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold
+            CustomText(
+                "Ingredients:",
+                color = Color.Black,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Left,
+                style = MaterialTheme.typography.titleMedium
             )
-            Text(text = " ${recipe?.ingredients}", color = Color.Gray)
+            /*     Text(
+                     text = "Ingredients :",
+                     style = MaterialTheme.typography.titleMedium,
+                     fontWeight = FontWeight.Bold
+                 )*/
+            CustomText(
+                "${recipe?.ingredients}",
+                color = Color.Gray,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Normal,
+                textAlign = TextAlign.Start,
+                style = TextStyle.Default
+            )
             Spacer(modifier = Modifier.height(8.dp))
 
             // Instructions
-            Text(
-                text = "Instructions :",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold
+            CustomText(
+                "Instructions:",
+                color = Color.Black,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Left,
+                style = MaterialTheme.typography.titleMedium
             )
-            Text(text = " ${recipe?.instructions}", color = Color.Gray)
+
+            CustomText(
+                "${recipe?.instructions}",
+                color = Color.Gray,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Normal,
+                textAlign = TextAlign.Start,
+                style = TextStyle.Default
+            )
 
         }
     }
