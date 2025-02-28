@@ -33,4 +33,11 @@
 
     <color name="splash_background">#6750A4</color> <!-- Use your desired color -->
 
+
+
+        <color name="material_dynamic_primary0">#6200EE</color>
+        <color name="material_dynamic_neutral10">#FFFFFF</color>
+        <color name="material_dynamic_surface">#FFFFFF</color>
+        <color name="material_dynamic_on_surface">#000000</color>
+
 </resources>

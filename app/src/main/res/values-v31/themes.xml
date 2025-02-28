@@ -2,9 +2,13 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- ✅ Main app theme -->
     <style name="Theme.RecipeFinder" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/material_dynamic_primary0</item>
-        <item name="android:colorBackground">@color/material_dynamic_neutral10</item>
+        <item name="colorPrimary">@color/md_theme_light_primary</item>
+        <item name="colorOnPrimary">@color/material_dynamic_neutral10</item>
+        <item name="colorSurface">@color/material_dynamic_surface</item>
+        <item name="colorOnSurface">@color/material_dynamic_on_surface</item>
         <item name="android:forceDarkAllowed">true</item>
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorSurfaceVariant</item>
+        <item name="android:navigationBarColor" tools:targetApi="l">?attr/colorSurface</item>
     </style>
 
     <!-- ✅ Splash screen theme (used only for system splash) -->
