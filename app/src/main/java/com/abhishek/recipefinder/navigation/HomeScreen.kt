@@ -26,8 +26,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.abhishek.recipefinder.R
 import com.abhishek.recipefinder.activity.ui.utils.CenteredCircularProgressIndicator
 import com.abhishek.recipefinder.data.ApiResponse
 import com.abhishek.recipefinder.data.RecipeResponse
@@ -77,7 +79,7 @@ fun HomeScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Recipes") },
+                title = { Text(stringResource(R.string.recipe)) },
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary
                 )
@@ -102,13 +104,13 @@ fun HomeScreen(
                             searchQuery = it
                             isSearching = it.isNotEmpty()
                         },
-                        placeholder = { Text("Search for recipes...") },
+                        placeholder = { Text(stringResource(R.string.search_placeholder)) },
                         modifier = Modifier.weight(1f)
                     )
                     Button(
                         onClick = { searchViewModel.searchRecipes(searchQuery) }
                     ) {
-                        Text("Search")
+                        Text(stringResource(R.string.search))
                     }
                 }
             }

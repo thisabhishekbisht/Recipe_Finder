@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Recipe Finder</string>
+    <string name="recipe">Recipes</string>
+    <string name="search_placeholder">Recipes की खोज करें...</string>
+    <string name="search">खोज</string>
+</resources>

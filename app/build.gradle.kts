@@ -59,6 +59,11 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
+    // Unit Testing
+    testImplementation(libs.junit)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.androidx.core.testing)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
