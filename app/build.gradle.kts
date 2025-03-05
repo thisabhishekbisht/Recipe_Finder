@@ -7,7 +7,6 @@ plugins {
 android {
     namespace = "com.abhishek.recipefinder"
     compileSdk = 35
-
     defaultConfig {
         applicationId = "com.abhishek.recipefinder"
         minSdk = 24
@@ -20,11 +19,37 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+            isDebuggable = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
+        }
+
+        debug {
+            isMinifyEnabled = false
+            isShrinkResources = false
+            isDebuggable = true
+        }
+
+        flavorDimensions += listOf(/*"pricing",*/ "language")
+
+        productFlavors {
+            /*           create("free") {
+                           applicationIdSuffix = ".free"
+                           dimension = "pricing"
+                       }
+                       create("paid") {
+                           applicationIdSuffix = ".paid"
+                           dimension = "pricing"
+                       }*/
+            create("english") {
+                dimension = "language"
+            }
+            create("hindi") {
+                dimension = "language"
+            }
         }
     }
     compileOptions {
@@ -46,10 +71,8 @@ dependencies {
     implementation(libs.coil.compose) // Coil for Jetpack Compose
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
-    implementation(libs.kotlinx.coroutines.android)
-    /*Splash Screen Lib*/
-    implementation(libs.androidx.core.splashscreen)
-    /*lifecycle compose */
+    implementation(libs.kotlinx.coroutines.android)/*Splash Screen Lib*/
+    implementation(libs.androidx.core.splashscreen)/*lifecycle compose */
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.core.ktx)
@@ -64,7 +87,6 @@ dependencies {
     testImplementation(libs.mockito.core)
     testImplementation(libs.androidx.core.testing)
     testImplementation(libs.kotlinx.coroutines.test)
-
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
