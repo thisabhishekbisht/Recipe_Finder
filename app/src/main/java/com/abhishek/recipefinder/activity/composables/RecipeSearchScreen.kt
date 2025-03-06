@@ -8,7 +8,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.navigation.compose.rememberNavController
 import com.abhishek.recipefinder.activity.ui.utils.CenteredCircularProgressIndicator
 import com.abhishek.recipefinder.data.ApiResponse
@@ -18,17 +17,16 @@ import com.abhishek.recipefinder.viewModel.SearchViewModel
 
 @Composable
 fun RecipeSearchScreen(searchViewModel: SearchViewModel) {
-    var searchQuery by remember { mutableStateOf("") }
     val searchResults by searchViewModel.searchResults.collectAsState()
     val navController = rememberNavController()
+
     Column {
-        CollapsibleToolbar(
-            isVisible = true,
-            onSearchQueryChanged = { query -> searchQuery = query },
-            onSearch = { searchViewModel.searchRecipes(searchQuery) }
-        )
+        CollapsibleToolbarWithToggle(searchViewModel = searchViewModel)
+
         when (searchResults) {
+            /*Show ProgressBar*/
             is ApiResponse.Loading -> CenteredCircularProgressIndicator()
+            /*Collect Data on success*/
             is ApiResponse.Success -> {
                 val recipes =
                     (searchResults as ApiResponse.Success<SearchRecipeResponse>).data.recipes
@@ -46,4 +44,13 @@ fun RecipeSearchScreen(searchViewModel: SearchViewModel) {
             }
         }
     }
+}
+
+@Composable
+fun CollapsibleToolbarWithToggle(searchViewModel: SearchViewModel) {
+    val isVisible by remember { mutableStateOf(true) }
+    CollapsibleToolbar(
+        searchViewModel = searchViewModel,
+        isVisible = isVisible
+    )
 }

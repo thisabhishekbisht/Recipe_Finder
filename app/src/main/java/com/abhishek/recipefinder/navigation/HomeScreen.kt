@@ -9,14 +9,20 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Call
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -25,11 +31,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.abhishek.recipefinder.R
 import com.abhishek.recipefinder.activity.ui.utils.CenteredCircularProgressIndicator
 import com.abhishek.recipefinder.data.ApiResponse
 import com.abhishek.recipefinder.data.RecipeResponse
@@ -37,7 +44,6 @@ import com.abhishek.recipefinder.data.SearchRecipeResponse
 import com.abhishek.recipefinder.viewModel.RecipeViewModel
 import com.abhishek.recipefinder.viewModel.SearchViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     navController: NavHostController,
@@ -53,12 +59,10 @@ fun HomeScreen(
     var previousScrollIndex by remember { mutableStateOf(0) }
     var previousScrollOffset by remember { mutableStateOf(0) }
 
-    // Fetch API data only once
     LaunchedEffect(Unit) {
         recipeViewModel.fetchAllRecipes()
     }
 
-    // Detect scroll direction and update the visibility of the search bar
     LaunchedEffect(listState) {
         snapshotFlow { listState.firstVisibleItemScrollOffset + listState.firstVisibleItemIndex }
             .collect { currentScrollOffset ->
@@ -76,16 +80,9 @@ fun HomeScreen(
             }
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(stringResource(R.string.recipe)) },
-                colors = TopAppBarDefaults.mediumTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary
-                )
-            )
-        }
-    ) { innerPadding ->
+    Scaffold { innerPadding ->
+        val seamlessColor = Color.Gray
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -93,24 +90,51 @@ fun HomeScreen(
                 .padding(16.dp)
         ) {
             if (isSearchBarVisible) {
-                Row(
+                Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 16.dp)
+                        .padding(bottom = 16.dp),
+                    shape = RoundedCornerShape(8.dp),
+                    colors = CardDefaults.cardColors(containerColor = seamlessColor)
                 ) {
-                    TextField(
-                        value = searchQuery,
-                        onValueChange = {
-                            searchQuery = it
-                            isSearching = it.isNotEmpty()
-                        },
-                        placeholder = { Text(stringResource(R.string.search_placeholder)) },
-                        modifier = Modifier.weight(1f)
-                    )
-                    Button(
-                        onClick = { searchViewModel.searchRecipes(searchQuery) }
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(stringResource(R.string.search))
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = null,
+                            modifier = Modifier.padding(end = 8.dp)
+                        )
+                        TextField(
+                            value = searchQuery,
+                            onValueChange = {
+                                searchQuery = it
+                                isSearching = it.isNotEmpty()
+                            },
+                            placeholder = { Text("Search for recipes") },
+                            modifier = Modifier.weight(1f),
+                            singleLine = true,
+                            /*      colors = TextFieldDefaults.textFieldColors(
+                                      backgroundColor = Color.Transparent,
+                                      focusedIndicatorColor = Color.Transparent,
+                                      unfocusedIndicatorColor = Color.Transparent,
+                                      cursorColor = Color.Black, // Adjust cursor color if necessary
+                                      textColor = Color.Black // Adjust text color if necessary
+                                  ),*/
+                            keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Search),
+                            keyboardActions = KeyboardActions(onSearch = {
+                                searchViewModel.searchRecipes(searchQuery)
+                            })
+                        )
+                        IconButton(onClick = { /* Handle microphone click */ }) {
+                            Icon(
+                                imageVector = Icons.Default.Call,
+                                contentDescription = null
+                            )
+                        }
                     }
                 }
             }
