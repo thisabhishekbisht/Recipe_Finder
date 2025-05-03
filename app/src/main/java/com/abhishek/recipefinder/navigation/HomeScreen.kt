@@ -1,5 +1,56 @@
 package com.abhishek.recipefinder.navigation
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.navigation.NavHostController
+import com.abhishek.recipefinder.activity.composables.RecipeList
+import com.abhishek.recipefinder.activity.ui.utils.CenteredCircularProgressIndicator
+import com.abhishek.recipefinder.data.ApiResponse
+import com.abhishek.recipefinder.data.RecipeResponse
+import com.abhishek.recipefinder.viewModel.RecipeViewModel
+import com.abhishek.recipefinder.viewModel.SearchViewModel
+
+@Composable
+fun HomeScreen(
+    navController: NavHostController,
+    recipeViewModel: RecipeViewModel,
+    searchViewModel: SearchViewModel
+) {
+    val recipeState by recipeViewModel.recipeState.collectAsState()
+
+    LaunchedEffect(Unit) {
+        recipeViewModel.fetchAllRecipes()
+    }
+
+    Column {
+
+        when (recipeState) {
+            is ApiResponse.Loading -> CenteredCircularProgressIndicator()
+            is ApiResponse.Success -> {
+                val recipes = (recipeState as ApiResponse.Success<RecipeResponse>).data.recipes
+                RecipeList(recipes = recipes, onClick = { recipe ->
+                    val recipeId = recipe.id
+                    val recipeName = recipe.name
+                    recipeViewModel.updateSelectedRecipe(recipe)
+                    navController.navigate("details/$recipeId/$recipeName")
+                })
+            }
+
+            is ApiResponse.Error -> {
+                val errorMsg = (recipeState as ApiResponse.Error).message
+                Text(text = errorMsg, color = MaterialTheme.colorScheme.error)
+            }
+        }
+    }
+}
+
+package com.abhishek.recipefinder.navigation
+
 import RecipeItem
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
