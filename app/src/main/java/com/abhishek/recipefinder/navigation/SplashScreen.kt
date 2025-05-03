@@ -30,16 +30,20 @@ import com.abhishek.recipefinder.R
 import kotlinx.coroutines.delay
 
 @Composable
-fun SplashScreen(navController: NavHostController) {
+fun SplashScreen(navController: NavHostController,) {
     var isSplashVisible by remember { mutableStateOf(true) }
+
+    // Dummy check for user logged in status
+    var isUserLoggedIn by remember { mutableStateOf(false) }
 
     // Delay for splash screen duration
     LaunchedEffect(Unit) {
         delay(3000) // 3 seconds splash time
         isSplashVisible = false
-        navController.navigate("home") {
+        val destination = if (isUserLoggedIn) "home" else "login"
+        navController.navigate(destination) {
             popUpTo("splashScreen") { inclusive = true } // Remove splash from backstack
-        }
+         }
     }
 
     AnimatedVisibility(
