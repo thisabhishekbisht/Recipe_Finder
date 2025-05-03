@@ -4,6 +4,9 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <permission
+        android:name="com.abhishek.recipefinder.MY_SERVICE_PERMISSION"
+        android:protectionLevel="signature" />
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,15 +16,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         tools:targetApi="31">
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_notification_channel_id" />
+
         <activity
             android:name=".activity.MainActivity"
-            android:theme="@style/Theme.RecipeFinder.Splash"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.RecipeFinder.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service
+            android:name=".firebase.MyFirebaseInstanceIDService"
+            android:exported="false"
+            android:permission="com.abhishek.recipefinder.MY_SERVICE_PERMISSION">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

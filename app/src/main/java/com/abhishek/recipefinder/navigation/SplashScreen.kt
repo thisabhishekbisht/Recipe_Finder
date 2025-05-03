@@ -40,6 +40,7 @@ fun SplashScreen(navController: NavHostController) {
         navController.navigate("home") {
             popUpTo("splashScreen") { inclusive = true } // Remove splash from backstack
         }
+        return@LaunchedEffect
     }
 
     AnimatedVisibility(
@@ -62,17 +63,10 @@ fun SplashScreenContent() {
             contentAlignment = Alignment.Center
         ) {
             Image(
-                painter = painterResource(id = R.drawable.icon_android), // Ensure this image exists
-                contentDescription = "Splash Logo",
-                modifier = Modifier.size(150.dp), // Adjust size as needed
-                contentScale = ContentScale.Inside // Prevents cropping
-            )
-            Text(
-                text = "Abhishek Bisht",
-                color = Color.Red,
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.align(Alignment.Center) // Adjust position
+                painter = painterResource(id = R.drawable.splash_screen_background), // Ensure this image exists
+                contentDescription = "Splash Background",
+                modifier = Modifier.fillMaxSize(), // Adjust size as needed
+                contentScale = ContentScale.Fit // Prevents cropping
             )
         }
     }

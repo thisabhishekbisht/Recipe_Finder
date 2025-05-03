@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "53322486838",
+    "project_id": "recipe-app-d1fa2",
+    "storage_bucket": "recipe-app-d1fa2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:53322486838:android:8b7eef189a12d47af63497",
+        "android_client_info": {
+          "package_name": "com.abhishek.recipefinder"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByQU-YNcHrvT6YcjsNHwU2oIcFeoD9T5w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

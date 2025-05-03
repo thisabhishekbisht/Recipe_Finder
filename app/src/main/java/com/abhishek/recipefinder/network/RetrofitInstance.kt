@@ -1,5 +1,6 @@
 package com.abhishek.recipefinder.network
 
+import com.abhishek.recipefinder.repository.LoginRepository
 import com.abhishek.recipefinder.repository.RecipeRepository
 import com.abhishek.recipefinder.repository.SearchRepository
 import retrofit2.Retrofit

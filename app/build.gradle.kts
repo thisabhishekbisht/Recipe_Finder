@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -82,6 +83,7 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.firebase.messaging)
     // Unit Testing
     testImplementation(libs.junit)
     testImplementation(libs.mockito.core)
@@ -94,4 +96,15 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    /*firebase*/
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    /*authentication*/
+    implementation(libs.play.services.auth) // Google Sign-In
+    implementation(libs.facebook.login)
+    implementation(libs.firebase.auth)
+    /*Encryption*/
+    implementation(libs.androidx.security.crypto)
+
+
 }
