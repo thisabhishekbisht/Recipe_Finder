@@ -1,5 +1,3 @@
-package com.abhishek.recipefinder.activity.composables
-
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -16,8 +14,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
@@ -163,27 +159,5 @@ fun RatingBar(rating: Int) {
                 tint = MaterialTheme.colorScheme.secondary
             )
         }
-    }
-}
-
-@Composable
-fun RecipeList(recipes: List<Recipe>, onClick: (Recipe) -> Unit) {
-    var selectedRecipe by remember { mutableStateOf<Recipe?>(null) }
-
-    LazyColumn {
-        items(recipes) { recipe ->
-            RecipeItem(
-                recipe = recipe,
-                onClick = { onClick(recipe) },
-                onLongClick = { selectedRecipe = recipe }
-            )
-        }
-    }
-
-    selectedRecipe?.let { recipe ->
-        RecipeDetailDialog(
-            recipe = recipe,
-            onDismissRequest = { selectedRecipe = null }
-        )
     }
 }
