@@ -48,7 +48,7 @@ fun LoginScreen(navController: NavHostController, loginViewModel: LoginViewModel
                 loginViewModel.signInWithGoogle(idToken) { isSuccess ->
                     if (isSuccess) {
                         println("✅ Google login successful!")
-                        save(context,account)
+                    //    save(context,account)
                         loginErrorMessage = null
                     } else {
                         println("❌ Google login failed!")

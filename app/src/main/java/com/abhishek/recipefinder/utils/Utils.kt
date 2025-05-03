@@ -8,7 +8,7 @@ import androidx.core.net.toUri
 
 
 class Utils {
-    fun getUserInfo(context: Context): GoogleSignInAccount? {
+  /*  fun getUserInfo(context: Context): GoogleSignInAccount? {
         val masterKey = MasterKey.Builder(context)
             .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
             .build()
@@ -34,5 +34,5 @@ class Utils {
         } else {
             null
         }
-    }
+    }*/
 }
