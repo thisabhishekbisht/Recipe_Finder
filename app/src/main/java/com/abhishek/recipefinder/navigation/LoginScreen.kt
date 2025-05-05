@@ -136,7 +136,7 @@ fun SocialLoginButtons(onGoogleSignInClicked: () -> Unit) {
     ) {
         SocialLoginButton(
             text = "Login with Google",
-            icon = painterResource(id = R.drawable.ic_google),
+            icon = painterResource(id = R.drawable.icon_android),
             color = Color(0xFFDB4437),
             onClick = onGoogleSignInClicked
         )
@@ -145,7 +145,7 @@ fun SocialLoginButtons(onGoogleSignInClicked: () -> Unit) {
 
         SocialLoginButton(
             text = "Login with Facebook",
-            icon = painterResource(id = R.drawable.ic_facebook),
+            icon = painterResource(id = R.drawable.icon_android),
             color = Color(0xFF1877F2),
             onClick = { println("Facebook login clicked!") }
         )
